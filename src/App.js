@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BillInput } from "./components/BillInput";
+import { Service } from "./components/Service";
+import { Button } from "./components/Button";
+import { TotalBill } from "./TotalBill";
 
-function App() {
+export default function App() {
+  const [bill, setBill] = useState(null);
+  const [service, setService] = useState(null);
+  const [friendService, setFriendService] = useState(null);
+
+  function handleReset() {
+    setBill((bill) => 0);
+    setService((service) => 0);
+    setFriendService((friendService) => 0);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BillInput bill={bill} setBill={setBill} />
+      <Service service={service} setService={setService}>
+        <span>How did you like the service?</span>
+      </Service>
+      <Service service={friendService} setService={setFriendService}>
+        <span>How did your friend like the service?</span>
+      </Service>
+      <TotalBill bill={bill} service={service} friendService={friendService} />
+      {bill > 0 ? <Button handleReset={handleReset} /> : null}
     </div>
   );
 }
-
-export default App;
